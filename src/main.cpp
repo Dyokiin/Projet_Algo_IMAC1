@@ -1,4 +1,6 @@
 #include "../lib/AffTxt.h"
+#include <iostream>
+#include <SDL2/SDL.h>
 using namespace std;
 
 
@@ -29,13 +31,13 @@ int main()
 
 	while (!quit){
 		
-		SDL_SetRenderDrawColor(m_window_rendrer, 255,255,255,255);
+		AffL(3, 1, 50, 50, renderer);
+		AffL(1, 1, 85, 50, renderer);
+		AffL(3, 1, 115, 50, renderer);
+		AffL(1, 1, 145, 50, renderer);
 		
 		while(SDL_PollEvent(&e)){
 			if (e.type == SDL_QUIT){
-				quit = true;
-			}
-			if (e.type == SDL_KEYDOWN){
 				quit = true;
 			}
 			if (e.type == SDL_MOUSEBUTTONDOWN) {
