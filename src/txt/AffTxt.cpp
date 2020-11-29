@@ -4,6 +4,8 @@
 
 using namespace std;
 
-#define TAILLE_MIN 10
+#define H_MIN 5
+#define L_MIN 20
+
 
 
