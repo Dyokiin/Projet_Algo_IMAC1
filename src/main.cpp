@@ -28,6 +28,9 @@ int main()
 	
 
 	while (!quit){
+		
+		SDL_SetRenderDrawColor(m_window_rendrer, 255,255,255,255);
+		
 		while(SDL_PollEvent(&e)){
 			if (e.type == SDL_QUIT){
 				quit = true;
