@@ -31,10 +31,8 @@ int main()
 
 	while (!quit){
 		
-		AffL(3, 1, 50, 50, renderer);
-		AffL(1, 1, 85, 50, renderer);
-		AffL(3, 1, 115, 50, renderer);
-		AffL(1, 1, 145, 50, renderer);
+		char Hello[23] = "koxynelle";
+		AffTxt(Hello, 1, 20,190, renderer);
 		
 		while(SDL_PollEvent(&e)){
 			if (e.type == SDL_QUIT){
