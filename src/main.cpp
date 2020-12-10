@@ -31,8 +31,15 @@ int main()
 
 	while (!quit){
 		
-		char Hello[23] = "koxynelle";
+		char Hello[23] = "theo arnauld des lions";
 		AffTxt(Hello, 1, 20,190, renderer);
+		
+		for(int i; i<=26; i++){
+			AffL(i, 1, 35*i, 35, renderer); } 
+			
+		for(int i=0; i<=9; i++){
+			AffChfr(i, 1, 35*i, 80, renderer);}
+		
 		
 		while(SDL_PollEvent(&e)){
 			if (e.type == SDL_QUIT){

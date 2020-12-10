@@ -598,7 +598,259 @@ void AffTxt(char* mot, float taille, int x, int y, SDL_Renderer* ren){
 	int xi = x;
 	for(int j; j<=23; j++){
 		AffL((int)mot[j]-96, taille, xi, y, ren);
-		xi += 30*taille; }	
-	
+		xi += 30*taille; }
 }
-	
+		
+void AffChfr(int chiffre, float taille, int x, int y, SDL_Renderer* ren){
+		
+	SDL_SetRenderDrawColor(ren, 255,255,255,255);
+	SDL_Rect rect;
+
+	switch (chiffre) {
+		case 0:
+			rect.x =x;
+			rect.y =y;
+			rect.h =H_MIN*taille;
+			rect.w =L_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x;
+			rect.y =y;
+			rect.h =L_MIN*taille;
+			rect.w =H_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x+(taille*L_MIN);
+			rect.y =y;
+			rect.w =H_MIN*taille;
+			rect.h =L_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x;
+			rect.y =y+(taille*L_MIN);
+			rect.h =H_MIN*taille;
+			rect.w =L_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			SDL_RenderPresent(ren);
+			break;
+		case 1:
+			rect.x =x;
+			rect.y =y+(taille*L_MIN);
+			rect.h =H_MIN*taille;
+			rect.w =L_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x+L_MIN/2;
+			rect.y =y;
+			rect.h =L_MIN*taille;
+			rect.w =H_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x;
+			rect.y =y;
+			rect.h =H_MIN*taille;
+			rect.w =L_MIN*taille/2;
+			SDL_RenderFillRect(ren, &rect);
+			SDL_RenderPresent(ren);
+			break;
+		case 2:
+			rect.x =x;
+			rect.y =y;
+			rect.h =H_MIN*taille;
+			rect.w =L_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x+L_MIN*taille;
+			rect.y =y;
+			rect.h =L_MIN*taille/2;
+			rect.w =H_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x;
+			rect.y =y+L_MIN*taille/2;
+			rect.h =H_MIN*taille;
+			rect.w =L_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x;
+			rect.y =y+L_MIN*taille/2;
+			rect.h =L_MIN*taille/2;
+			rect.w =H_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x;
+			rect.y =y+L_MIN*taille;
+			rect.h =H_MIN*taille;
+			rect.w =L_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			SDL_RenderPresent(ren);
+			break;
+		case 3:
+			rect.x =x;
+			rect.y =y;
+			rect.h =H_MIN*taille;
+			rect.w =L_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x+L_MIN*taille;
+			rect.y =y;
+			rect.h =L_MIN*taille;
+			rect.w =H_MIN;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x+L_MIN*taille/2;
+			rect.y =y+L_MIN*taille/2;
+			rect.h =H_MIN*taille;
+			rect.w =L_MIN*taille/2;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x;
+			rect.y =y+L_MIN*taille;
+			rect.h =H_MIN*taille;
+			rect.w =L_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			SDL_RenderPresent(ren);
+			break;
+		case 4: 
+			rect.x =x;
+			rect.y =y;
+			rect.h =L_MIN*taille/2;
+			rect.w =H_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x;
+			rect.y =y+L_MIN*taille/2;
+			rect.h =H_MIN*taille;
+			rect.w =L_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x+L_MIN*taille;
+			rect.y =y;
+			rect.h =L_MIN*taille;
+			rect.w =H_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			SDL_RenderPresent(ren);
+			break;
+		case 5:
+			rect.x =x;
+			rect.y =y;
+			rect.h =H_MIN*taille;
+			rect.w =L_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x;
+			rect.y =y;
+			rect.h =L_MIN*taille/2;
+			rect.w =H_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x;
+			rect.y =y+L_MIN*taille/2;
+			rect.h =H_MIN*taille;
+			rect.w =L_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x+L_MIN*taille;
+			rect.y =y+L_MIN*taille/2;
+			rect.h =L_MIN*taille/2;
+			rect.w =H_MIN;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x;
+			rect.y =y+L_MIN*taille;
+			rect.h =H_MIN*taille;
+			rect.w =L_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			SDL_RenderPresent(ren);
+			break;
+		case 6: 
+			rect.x =x;
+			rect.y =y;
+			rect.h =H_MIN*taille;
+			rect.w =L_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x;
+			rect.y =y;
+			rect.h =L_MIN*taille;
+			rect.w =H_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x;
+			rect.y =y+L_MIN*taille/2;
+			rect.h =H_MIN*taille;
+			rect.w =L_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x+L_MIN*taille;
+			rect.y =y+L_MIN*taille/2;
+			rect.h =L_MIN*taille/2;
+			rect.w =H_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x;
+			rect.y =y+L_MIN*taille;
+			rect.h =H_MIN*taille;
+			rect.w =L_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			SDL_RenderPresent(ren);
+			break;
+		case 7:
+			rect.x =x;
+			rect.y =y;
+			rect.h =H_MIN*taille;
+			rect.w =L_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x+L_MIN*taille;
+			rect.y =y;
+			rect.h =L_MIN*taille;
+			rect.w =H_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			SDL_RenderPresent(ren);
+			break;
+		case 8:
+			rect.x =x;
+			rect.y =y;
+			rect.h =H_MIN*taille;
+			rect.w =L_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x;
+			rect.y =y;
+			rect.h =L_MIN*taille;
+			rect.w =H_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x;
+			rect.y =y+L_MIN*taille/2;
+			rect.h =H_MIN*taille;
+			rect.w =L_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x+(taille*L_MIN);
+			rect.y =y;
+			rect.w =H_MIN*taille;
+			rect.h =L_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x;
+			rect.y =y+(taille*L_MIN);
+			rect.h =H_MIN*taille;
+			rect.w =L_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			SDL_RenderPresent(ren);
+			break;
+		case 9:
+			rect.x =x;
+			rect.y =y;
+			rect.h =H_MIN*taille;
+			rect.w =L_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x;
+			rect.y =y;
+			rect.h =L_MIN*taille/2;
+			rect.w =H_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x;
+			rect.y =y+L_MIN*taille/2;
+			rect.h =H_MIN*taille;
+			rect.w =L_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x+L_MIN*taille;
+			rect.y =y;
+			rect.h =L_MIN*taille;
+			rect.w =H_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			rect.x =x;
+			rect.y =y+L_MIN*taille;
+			rect.h =H_MIN*taille;
+			rect.w =L_MIN*taille;
+			SDL_RenderFillRect(ren, &rect);
+			break;
+		default:
+			break;
+	}
+}
+
+void AffNb(int nb, float taille, int x, int y, SDL_Renderer* ren){
+	int xi = x;
+	int n = 100;
+	for(int j=0; j<=2; j++){
+		AffChfr(nb/n%10, taille, xi, y, ren);
+		xi += 30*taille;
+		if (n>=10) n = n/10; }
+}
