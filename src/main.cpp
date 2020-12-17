@@ -1,4 +1,5 @@
 #include "../lib/AffTxt.h"
+#include "../lib/menus.h"
 #include <iostream>
 #include <SDL2/SDL.h>
 using namespace std;
@@ -7,11 +8,11 @@ using namespace std;
 
 int main()
 {
-	SDL_Event e;
+
 	SDL_Window* window = NULL;
 	SDL_Renderer* renderer = NULL;
 	bool quit = false;
-	
+
 	
 	
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0){
@@ -22,33 +23,36 @@ int main()
 		cout << SDL_GetError() << endl;
 		goto Quit; }
 	
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	if(renderer == NULL){
 		cout << SDL_GetError() << endl;
 		goto Quit; }
-		
+
 	
 
 	while (!quit){
 		
-		char Hello[23] = "theo arnauld des lions";
-		AffTxt(Hello, 1, 20,190, renderer);
-		
-		for(int i; i<=26; i++){
-			AffL(i, 1, 35*i, 35, renderer); } 
-			
-		for(int i=0; i<=9; i++){
-			AffChfr(i, 1, 35*i, 80, renderer);}
 		
 		
-		while(SDL_PollEvent(&e)){
-			if (e.type == SDL_QUIT){
+		switch (menuPrincipal(renderer)) {
+			case 1:
+				cout << "JcJ" << endl;
+				break;
+			case 2:
+				cout << "JcM" << endl;
+				break;
+			case 3:
 				quit = true;
-			}
-			if (e.type == SDL_MOUSEBUTTONDOWN) {
+				break;
+			case 0:
+				break;
+			default:
 				quit = true;
-			}
+				break;
 		}
+		
+		SDL_RenderPresent(renderer);
+
 	}
 	
 	
