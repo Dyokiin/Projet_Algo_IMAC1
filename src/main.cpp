@@ -37,9 +37,11 @@ int main()
 		switch (menuPrincipal(renderer)) {
 			case 1:
 				cout << "JcJ" << endl;
+				menuJeu(1, renderer);
 				break;
 			case 2:
 				cout << "JcM" << endl;
+				menuJeu(2, renderer);
 				break;
 			case 3:
 				quit = true;
@@ -50,8 +52,11 @@ int main()
 				quit = true;
 				break;
 		}
-		
+
 		SDL_RenderPresent(renderer);
+		SDL_SetRenderDrawColor(renderer, 0,0,0,255);
+		SDL_RenderClear(renderer);
+		SDL_SetRenderDrawColor(renderer, 255,255,255,255);
 
 	}
 	

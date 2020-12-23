@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 using namespace std;
 
 #define H_MIN 3
@@ -11,7 +12,6 @@ using namespace std;
 
 void AffL(int n, float taille, int x, int y, SDL_Renderer* ren){
 
-	SDL_SetRenderDrawColor(ren, 255,255,255,255);
 	SDL_Rect rect;
 
 	switch (n) {
@@ -593,17 +593,17 @@ void AffL(int n, float taille, int x, int y, SDL_Renderer* ren){
 	}
 }
 
-void AffTxt(char* mot, float taille, int x, int y, SDL_Renderer* ren){
-	SDL_SetRenderDrawColor(ren, 255,255,255,255);
+int AffTxt(char* mot, float taille, int x, int y, SDL_Renderer* ren){
+
 	int xi = x;
 	for(int j=0; j<=23; j++){
 		AffL((int)mot[j]-96, taille, xi, y, ren);
 		xi += 30*taille; }
+	return xi;
 }
 		
 void AffChfr(int chiffre, float taille, int x, int y, SDL_Renderer* ren){
-		
-	SDL_SetRenderDrawColor(ren, 255,255,255,255);
+
 	SDL_Rect rect;
 
 	switch (chiffre) {
@@ -846,11 +846,40 @@ void AffChfr(int chiffre, float taille, int x, int y, SDL_Renderer* ren){
 	}
 }
 
-void AffNb(int nb, float taille, int x, int y, SDL_Renderer* ren){
+int AffNb(int nb, float taille, int x, int y, SDL_Renderer* ren){
 	int xi = x;
 	int n = 100;
 	for(int j=0; j<=2; j++){
 		AffChfr(nb/n%10, taille, xi, y, ren);
 		xi += 30*taille;
 		if (n>=10) n = n/10; }
+	return xi;
+}
+
+void DrawBot(int x, int y, SDL_Renderer* ren){
+	SDL_Rect bot;
+	
+	bot.x = x+5;
+	bot.y = y+5;
+	bot.h = 40;
+	bot.w = 40;
+	SDL_RenderDrawRect(ren, &bot);
+	bot.x = x;
+	bot.y = y+10;
+	bot.h = 20;
+	bot.w = 5;
+	SDL_RenderFillRect(ren, &bot);
+	bot.x = x+45;
+	SDL_RenderFillRect(ren, &bot);
+	bot.x = x + 10;
+	bot.y = y + 35;
+	bot.h = 5;
+	bot.w = 30;
+	SDL_RenderFillRect(ren, &bot);
+	bot.y = y + 15;
+	bot.h = 10;
+	bot.w = 10;
+	SDL_RenderFillRect(ren, &bot);
+	bot.x = x + 30;
+	SDL_RenderFillRect(ren, &bot);
 }
