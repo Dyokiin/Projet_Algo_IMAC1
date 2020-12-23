@@ -2,8 +2,8 @@ CC := g++
 
 CFLAGS := `sdl2-config --libs --cflags` -O0 -Wall -lm
 
-HDRS := lib/AffTxt.h
-SRCS := src/main.cpp src/txt/AffTxt.cpp
+HDRS := lib/AffTxt.h lib/menus.h lib/AffBtn.h lib/jeu.h lib/joueur.h
+SRCS := src/main.cpp src/Affichage/AffTxt.cpp src/Menu/menus.cpp src/Affichage/AffBtn.cpp src/Jeu/jeu.cpp src/Jeu/joueur.cpp
 OBJS := $(SRCS:.c=.o)
 EXEC := Reversi
 

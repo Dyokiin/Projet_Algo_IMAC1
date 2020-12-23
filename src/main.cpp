@@ -1,4 +1,5 @@
 #include "../lib/AffTxt.h"
+#include "../lib/menus.h"
 #include <iostream>
 #include <SDL2/SDL.h>
 using namespace std;
@@ -7,11 +8,11 @@ using namespace std;
 
 int main()
 {
-	SDL_Event e;
+
 	SDL_Window* window = NULL;
 	SDL_Renderer* renderer = NULL;
 	bool quit = false;
-	
+
 	
 	
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0){
@@ -22,26 +23,41 @@ int main()
 		cout << SDL_GetError() << endl;
 		goto Quit; }
 	
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	if(renderer == NULL){
 		cout << SDL_GetError() << endl;
 		goto Quit; }
-		
+
 	
 
 	while (!quit){
 		
-		char Hello[23] = "koxynelle";
-		AffTxt(Hello, 1, 20,190, renderer);
 		
-		while(SDL_PollEvent(&e)){
-			if (e.type == SDL_QUIT){
+		
+		switch (menuPrincipal(renderer)) {
+			case 1:
+				cout << "JcJ" << endl;
+				menuJeu(1, renderer);
+				break;
+			case 2:
+				cout << "JcM" << endl;
+				menuJeu(2, renderer);
+				break;
+			case 3:
 				quit = true;
-			}
-			if (e.type == SDL_MOUSEBUTTONDOWN) {
+				break;
+			case 0:
+				break;
+			default:
 				quit = true;
-			}
+				break;
 		}
+
+		SDL_RenderPresent(renderer);
+		SDL_SetRenderDrawColor(renderer, 0,0,0,255);
+		SDL_RenderClear(renderer);
+		SDL_SetRenderDrawColor(renderer, 255,255,255,255);
+
 	}
 	
 	
