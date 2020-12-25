@@ -1,20 +1,19 @@
 #include "../lib/AffTxt.h"
 #include "../lib/menus.h"
+#include "../lib/jeu.h"
 #include <iostream>
 #include <SDL2/SDL.h>
+
 using namespace std;
 
 
 
-int main()
-{
+int main(){
 
 	SDL_Window* window = NULL;
 	SDL_Renderer* renderer = NULL;
 	bool quit = false;
 
-	
-	
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0){
 		cout << SDL_GetError() << endl;
 		goto Quit; }
@@ -32,16 +31,14 @@ int main()
 
 	while (!quit){
 		
-		
-		
 		switch (menuPrincipal(renderer)) {
 			case 1:
 				cout << "JcJ" << endl;
-				menuJeu(1, renderer);
+				jeu(1, renderer);
 				break;
 			case 2:
 				cout << "JcM" << endl;
-				menuJeu(2, renderer);
+				jeu(2, renderer);
 				break;
 			case 3:
 				quit = true;
@@ -57,7 +54,6 @@ int main()
 		SDL_SetRenderDrawColor(renderer, 0,0,0,255);
 		SDL_RenderClear(renderer);
 		SDL_SetRenderDrawColor(renderer, 255,255,255,255);
-
 	}
 	
 	
