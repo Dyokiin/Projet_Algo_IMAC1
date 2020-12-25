@@ -5,5 +5,6 @@
 
 int menuPrincipal(SDL_Renderer *ren);
 int menuJeu(int mode, SDL_Renderer *renderer);
+int menuNom(int n, char* nom, SDL_Renderer *renderer);
 
 #endif 

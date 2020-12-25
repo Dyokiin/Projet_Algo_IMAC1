@@ -1,5 +1,6 @@
 #include "../../lib/AffTxt.h"
 #include "../../lib/AffBtn.h"
+#include "../../lib/jeu.h"
 #include <iostream>
 #include <SDL2/SDL.h>
 using namespace std;
@@ -17,7 +18,6 @@ int menuPrincipal(SDL_Renderer *renderer){
 	char bouton3[MAX_CHAR] = "quitter";
 	
 	AffTxt(titre, 1, 100, 30, renderer);
-
 	bouton(bouton1, 1, 300, 300, renderer);
 	bouton(bouton2, 1, 300, 400, renderer);
 	bouton(bouton3, 1, 300, 500, renderer);
@@ -43,57 +43,84 @@ int menuPrincipal(SDL_Renderer *renderer){
 
 }
 
+int menuNom(int n, char*nom, SDL_Renderer *renderer){
 
-int menuJeu(int mode, SDL_Renderer *renderer){
-
-	SDL_SetRenderDrawColor(renderer, 0,0,0,255); 		//clear render pour afficher le jeu
-	SDL_RenderClear(renderer);
-	SDL_RenderPresent(renderer);
-
-	 					//Definition et affichage necessaire au jeu 
-	SDL_Rect space;
-	char titre[MAX_CHAR] = "reversi";
-	char btnq[MAX_CHAR] = "quitter";
+	SDL_Event l;
+	bool name = true;
+	int cpt = 0;
+	char titre[MAX_CHAR] = "nom joueur";
+	char bouton2[MAX_CHAR] = "valider";
+	char bouton3[MAX_CHAR] = "quitter";
 	
-	SDL_SetRenderDrawColor(renderer, 255,0,0,255);
-	bouton(btnq, 1, 750, 850, renderer);
-	//SDL_RenderPresent(renderer);
-	SDL_SetRenderDrawColor(renderer, 255,255,255,255);
-	AffTxt(titre, 1, 400, 5, renderer);
 	
-	AffL(10, 1, 100, 250, renderer);
-	AffChfr(1, 1, 130, 250, renderer);
-	
-	if (mode == 1) {
-		AffL(10, 1, 850, 250, renderer);
-		AffChfr(2, 1, 880, 250, renderer); 
-	} else {
-		DrawBot(850, 250, renderer);
-	}
-	
-	/*board.x = 250;
-	board.y = 250;
-	board.h = 500;
-	board.w = 500;
-	SDL_SetRenderDrawColor(renderer, 132,235,152,92);
-	SDL_RenderFillRect(renderer, &board); */
-	
-	for(int i=0; i<500; i+=65){
-		for(int j=0; j<500; j+=65){
-			space.x = 250 + i;
-			space.y = 250 + j;
-			space.w = 60;
-			space.h = 60;
-			SDL_SetRenderDrawColor(renderer, 139,245,70,94);
-			SDL_RenderFillRect(renderer, &space);
+	while(name){		
+		while(SDL_PollEvent(&l)){
+			if (l.type == SDL_QUIT){
+				return 1;
+			}
+			if (l.type == SDL_MOUSEBUTTONDOWN) {
+				int x,y;
+				SDL_GetMouseState(&x, &y);
+				cout << x << " " << y << endl;
+				if(x > 750 && y > 850) return 1;
+				if(x > 750 && y > 800 && y < 830){
+					if(cpt == 3) return 0;
+				}
+				
+				for(int i=1; i<=2; i++){
+					for(int j=1; j<=13; j++){
+						if (x <= 260+j*37 && x >= 250+(j-1)*37){
+							if(y <= 205+i*40 && y >= 205+(i-1)*40){
+								if(cpt<3){
+									cout << i << " " << j << endl;
+									nom[cpt] = (char)((j+(i-1)*13)+96) ;
+									cpt++;
+								}
+							}
+						} else if(x<=775 && x>=740 && y<=275 && y>=240){
+							cout << "erase" << endl;
+							if(cpt>0) cpt--;
+							nom[cpt] = ' ';
+						}
+					}
+				}
+			}				
 		}
+		
+		SDL_SetRenderDrawColor(renderer, 255,255,255,255);
+		for(int i=1; i<=2 ; i++) {
+			for(int j=1; j<=13; j++) {
+				boutonl( j+(i-1)*13, 1, 260+(j-1)*37, 205+(i-1)*40, renderer);
+			}
+		}
+		
+		btnSupp(260+13*37, 245, renderer);
+		AffTxt(titre, 1, 100, 30, renderer);
+		AffChfr(n, 1, 405, 30, renderer);
+		AffTxt(nom, 1, 450, 100, renderer);
+		bouton(bouton2, 1, 750, 800, renderer);
+		
+		SDL_SetRenderDrawColor(renderer, 255,0,0,255);
+		bouton(bouton3, 1, 750, 850, renderer);
+	
+		SDL_SetRenderDrawColor(renderer, 255,255,255,255);
+		SDL_RenderDrawLine(renderer, 450, 105, 475, 105);
+		SDL_RenderDrawLine(renderer, 480, 105, 505, 105);
+		SDL_RenderDrawLine(renderer, 510, 105, 535, 105);
+		
+		SDL_RenderPresent(renderer);
+	
+	
+		SDL_SetRenderDrawColor(renderer, 0,0,0,255); 		//clear render pour afficher le jeu
+		SDL_RenderClear(renderer);
 	}
 	
-	SDL_RenderPresent(renderer);
-	
-	//jeu(mode);
-	
-	SDL_Delay(10000);
 	
 	return 0;
+
 }
+	
+	
+
+
+
