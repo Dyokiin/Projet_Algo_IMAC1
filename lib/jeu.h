@@ -1,12 +1,7 @@
 #ifndef JEU_H
 #define JEU_H
 #include "joueur.h"
-
-typedef struct jeton{
-	bool couleur;
-	int x;
-	int y;
-}Jeton;
+#include "jeton.h"
 
 typedef struct jeu{
 	joueur j1;

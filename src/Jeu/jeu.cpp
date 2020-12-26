@@ -4,6 +4,7 @@
 #include "../../lib/AffBtn.h"
 #include "../../lib/joueur.h"
 #include "../../lib/jeu.h"
+#include "../../lib/jeton.h"
 using namespace std;
 
 
@@ -13,8 +14,8 @@ int jeu(int mode, SDL_Renderer * renderer){
 	int cy = 0;
 	bool game = true;
 	
-	struct joueur * j1 = (struct joueur*)malloc((4*sizeof(char)+2*sizeof(int)));
-	struct joueur * j2 = (struct joueur*)malloc((4*sizeof(char)+2*sizeof(int)));
+	struct joueur* j1 = (struct joueur*)malloc((4*sizeof(char)+2*sizeof(int)));
+	struct joueur* j2 = (struct joueur*)malloc((4*sizeof(char)+2*sizeof(int)));
 	
 	if(mode == 1){
 		if(getPName(j1, 1, renderer)==1){
@@ -45,6 +46,8 @@ int jeu(int mode, SDL_Renderer * renderer){
 	j2->jetons = 30;
 	j1->score  = 0;
 	j2->score  = 0;
+	
+	struct jeu* plateau = (struct jeu*)malloc(2*sizeof(joueur*) + 64*sizeof(jeton*));
 
 	while(game){
 
@@ -65,13 +68,14 @@ int jeu(int mode, SDL_Renderer * renderer){
 								cx = i;
 								cy = j;
 								cout << cx << " " << cy << endl;
+								
+
 							}
 						}
 					}
 				}
 			}				
 		}
-	
 	
 	
 		AffPlateau(mode, renderer);

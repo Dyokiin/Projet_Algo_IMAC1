@@ -37,7 +37,6 @@ void AffPlateau(int mode, SDL_Renderer *renderer){
 void AffJoueur(joueur*j, SDL_Renderer *renderer){
 
 	SDL_SetRenderDrawColor(renderer, 255,255,255,255);
-	cout << j->nom[3] << endl;
 	if(j->nom[3] == 1){
 		AffTxt(j->nom, 1, 80, 250, renderer);
 		AffNb(j->jetons, 1, 80, 300, renderer);
