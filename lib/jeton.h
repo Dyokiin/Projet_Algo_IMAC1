@@ -14,7 +14,9 @@ typedef struct jeton{
 	jeton * suivHGauche;
 }Jeton;
 
-void pose(int couleur, int x, int y, struct jeu * plateau);
+
+void insere(int x,int y, int start, int until, struct jeu * plateau);
+void pose(int x, int y, struct jeu * plateau);
 
 
 

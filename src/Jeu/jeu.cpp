@@ -47,7 +47,11 @@ int jeu(int mode, SDL_Renderer * renderer){
 	j1->score  = 0;
 	j2->score  = 0;
 	
-	struct jeu* plateau = (struct jeu*)malloc(2*sizeof(joueur*) + 64*sizeof(jeton*));
+	struct jeu* plateau;
+	plateau->j1 = (joueur*)malloc(sizeof(joueur*));
+	plateau->j2 = (joueur*)malloc(sizeof(joueur*));
+	plateau->board = (jeton)malloc(64*sizeof(jeton));
+	initPlateau(plateau);
 
 	while(game){
 
@@ -90,11 +94,23 @@ int jeu(int mode, SDL_Renderer * renderer){
 	
 	free((joueur *)j1);
 	free((joueur *)j2);
+	free((jeu*)plateau);
 	
 	
 	return 0;
 }
 	
 
+void initPlateau(struct jeu * plateau){
+	int segfault = 0;
+	for(int i=1; i<=8; i++){
+		for(int j=1; j<=8; j++){
+			
+			pose(i, j, plateau);
+			cout << segfault << endl;
+			segfault++;
+		}
+	}
+}
 
 
