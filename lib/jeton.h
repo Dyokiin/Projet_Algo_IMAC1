@@ -3,21 +3,16 @@
 #include "jeu.h"
 
 typedef struct jeton{
-	int couleur;
-	jeton * suivHaut;
-	jeton * suivHDroite;
-	jeton * suivDroite ;
-	jeton * suivBDroite;
-	jeton * suivBas;
-	jeton * suivBGauche;
-	jeton * suivGauche ;
-	jeton * suivHGauche;
+	int  couleur;
+	jeton * precedent;
+	jeton * suivant;
 }Jeton;
 
-
-void insere(int x,int y, int start, int until, struct jeu * plateau);
-void pose(int x, int y, struct jeu * plateau);
-
+void insereTete(struct jeu * plateau);
+int pose(int x, int y, struct jeu * plateau);
+int couleur(int x, int y, struct jeu * plateau);
+jeton* jetonAt(int x, int y, struct jeu * plateau);
+int peuPoser(int x, int y, struct jeu * plateau);
 
 
 #endif 

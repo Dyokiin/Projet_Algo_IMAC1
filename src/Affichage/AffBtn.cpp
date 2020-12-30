@@ -7,7 +7,7 @@
 using namespace std;
 
 
-
+/* Permet d'afficher un bouton avec un mot à l'interieur */
 void bouton(char* mot, float taille, int x, int y, SDL_Renderer* ren){
 	
 	SDL_Rect btn;
@@ -21,6 +21,7 @@ void bouton(char* mot, float taille, int x, int y, SDL_Renderer* ren){
 	
 }
 
+/* Permet d'afficher un bouton de al longueur d'une lettre */
 void boutonl(int n, float taille, int x, int y, SDL_Renderer* ren){
 	SDL_Rect btn;
 	
@@ -32,6 +33,7 @@ void boutonl(int n, float taille, int x, int y, SDL_Renderer* ren){
 	AffL(n, taille, x, y, ren);
 }
 
+/* Permet d'afficher le bouton supprimer dans le menu nom joueur */
 void btnSupp(int x, int y, SDL_Renderer* ren){
 
 	SDL_Rect btn;
@@ -54,6 +56,7 @@ void btnSupp(int x, int y, SDL_Renderer* ren){
 }
 	
 
+
 // Le code qui suit permet d afficher des disques
 
 void lignH(int x, int y, int w, SDL_Renderer* ren){
@@ -74,7 +77,7 @@ void disque(int cx, int cy, int coul, SDL_Renderer* ren){
 	x = 0;
 	y = 25;
 	
-	if(!coul){
+	if(coul==0){
 		SDL_SetRenderDrawColor(ren, 255,255,255,255);
 		while(y >= x){
 			lignH(cx-x, cy-y, 2*x+1, ren);
@@ -91,7 +94,7 @@ void disque(int cx, int cy, int coul, SDL_Renderer* ren){
 			x++;
 		}
 	}
-	if(coul){
+	if(coul==1){
 		SDL_SetRenderDrawColor(ren, 0,0,0,255);
 		while(y >= x){
 			lignH(cx-x, cy-y, 2*x+1, ren);
@@ -108,8 +111,6 @@ void disque(int cx, int cy, int coul, SDL_Renderer* ren){
 			x++;
 		}
 	}
-	
-	SDL_RenderPresent(ren);
 		
 }
 	
