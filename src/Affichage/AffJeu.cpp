@@ -29,6 +29,7 @@ void AffPlateau(struct jeu *plateau, SDL_Renderer *renderer){
 			space.h = 60;
 			SDL_SetRenderDrawColor(renderer, 139,245,70,94);
 			SDL_RenderFillRect(renderer, &space);
+			if(coupPossible(i+1, j+1, plateau)) disque(250+i*65+30, 250+j*65+30, 3, renderer);
 			
 		}
 	}

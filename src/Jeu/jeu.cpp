@@ -86,7 +86,15 @@ int jeu(int mode, SDL_Renderer * renderer){
 								coup = !coup;
 								cx = i;
 								cy = j;
-								if(pose(cx,cy,plateau)!=1) plateau->current = !plateau->current;
+								if(coupPossible(cx,cy,plateau)){
+									if(pose(cx,cy,plateau)!=1){
+										for(int cpt=1;cpt<=8;cpt++){
+											prise(cx,cy,cpt,plateau);
+										}
+										plateau->current = !plateau->current;
+									}
+								}
+									
 								
 								//else affiche erreur
 							}
@@ -170,5 +178,106 @@ int ltoy(int l){
 	else if(l<=56) rtrn =48;
 	else if(l<=64) rtrn =56;
 	return rtrn;
+}
+
+
+int prise(int x, int y,int direc, struct jeu * plateau){
+	
+	int coul;
+	if(plateau->current) coul = 0;
+	else coul = 1;
+	
+	switch(direc){
+		case 1:
+			if(y == 1) return 1;
+			else if(couleur(x,y-1,plateau)==coul){
+				jetonAt(x,y,plateau)->couleur=coul;				
+				return 0;
+			} else if(couleur(x,y-1,plateau)==2) return 1;
+			if(prise(x,y-1,direc,plateau)==0){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			}
+			break;
+		case 2:
+			if(y == 1 || x == 8) return 1;
+			else if(couleur(x+1,y-1,plateau)==coul){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			} else if(couleur(x+1,y-1,plateau)==2) return 1;
+			if(prise(x+1,y-1,direc,plateau)==0){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			}
+			break;
+		case 3:
+			if(x == 8) return 1;
+			else if(couleur(x+1,y,plateau)==coul){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			} else if(couleur(x+1,y,plateau)==2) return 1;
+			if(prise(x+1,y,direc,plateau)==0){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			}
+			break;
+		case 4:
+			if(x == 8 || y == 8) return 1;
+			else if(couleur(x+1,y+1,plateau)==coul){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			} else if(couleur(x+1,y+1,plateau)==2) return 1;
+			if(prise(x+1,y+1,direc,plateau)==0){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			}
+			break;
+		case 5:
+			if(y == 8) return 1;
+			else if(couleur(x,y+1,plateau)==coul){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			} else if(couleur(x,y+1,plateau)==2) return 1;
+			if(prise(x,y+1,direc,plateau)==0){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			}
+			break;
+		case 6:
+			if(y == 8 || x == 1) return 1;
+			else if(couleur(x-1,y+1,plateau)==coul){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			} else if(couleur(x-1,y+1,plateau)==2) return 1;
+			if(prise(x-1,y+1,direc,plateau)==0){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			}
+			break;
+		case 7:
+			if( x == 1) return 1;
+			else if(couleur(x-1,y,plateau)==coul){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			} else if(couleur(x-1,y,plateau)==2) return 1;
+			if(prise(x-1,y,direc,plateau)==0){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			}
+			break;
+		case 8:
+			if(y == 1 || x == 1) return 1;
+			else if(couleur(x-1,y-1,plateau)==coul){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			} else if(couleur(x-1,y-1,plateau)==2) return 1;
+			if(prise(x-1,y-1,direc,plateau)==0){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			}
+			break;
+	}
+
+	return 1;
 }
 

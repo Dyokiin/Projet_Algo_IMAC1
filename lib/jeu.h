@@ -17,5 +17,6 @@ void initPlateau(struct jeu * plateau);
 int xytol(int x, int y);
 int ltox(int l);
 int ltoy(int l);
+int prise(int x, int y, int direc, struct jeu * plateau);
 
 #endif 

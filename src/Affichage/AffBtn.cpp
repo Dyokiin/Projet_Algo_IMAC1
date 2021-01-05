@@ -111,6 +111,23 @@ void disque(int cx, int cy, int coul, SDL_Renderer* ren){
 			x++;
 		}
 	}
+	if(coul==3){
+		SDL_SetRenderDrawColor(ren, 135,245,135,255);
+		while(y >= x){
+			lignH(cx-x, cy-y, 2*x+1, ren);
+			lignH(cx-x, cy+y, 2*x+1, ren);
+			lignH(cx-y, cy-x, 2*y+1, ren);
+			lignH(cx-y, cy+x, 2*y+1, ren);
+		
+			if(d<0) d = d+(4*x) + 6;
+			else {
+				d = d+4*(x-y)+10;
+				y--;
+			}
+		
+			x++;
+		}
+	}
 		
 }
 	
