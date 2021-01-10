@@ -38,13 +38,13 @@ int pose(int x, int y, struct jeu * plateau){
 /* Renvoie le pointeur vers le jeton aux coordones demandees */
 jeton* jetonAt(int x, int y, struct jeu * plateau){
 	
-	struct jeton *jet = (struct jeton*)malloc(sizeof(jeton));
+	struct jeton *jet;
 	jet = plateau->first;
 	
 	for(int pos = 1; pos<xytol(x, y); pos++){
 		jet = jet->suivant;
 	}
-	
+
 	return jet;
 }
 	
@@ -120,6 +120,7 @@ int peuPoser(int x, int y, int direc, struct jeu * plateau){
 
 bool coupPossible(int x, int y, struct jeu * plateau){
 	
+	if(couleur(x,y,plateau) !=2) return false;
 	bool cp1 = false;
 	int cp2 = 1;
 	int coul;

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include "../../lib/AffJeu.h"
+#include "../../lib/AffTxt.h"
 #include "../../lib/AffBtn.h"
 #include "../../lib/joueur.h"
 #include "../../lib/jeu.h"
@@ -8,15 +9,19 @@
 using namespace std;
 
 
+
 int jeu(int mode, SDL_Renderer * renderer){
+
 	SDL_Event clic;
 	int cx = 0;
 	int cy = 0;
+	int fin =0;
 	bool game = true;
+	bool coup = false;
 	Jeu * plateau;
 	struct joueur* j1 = (struct joueur*)malloc((4*sizeof(char)+2*sizeof(int)));
 	struct joueur* j2 = (struct joueur*)malloc((4*sizeof(char)+2*sizeof(int)));
-	bool coup = false;
+
 	
 	if(mode == 1){
 		if(getPName(j1, 1, renderer)==1){
@@ -43,15 +48,13 @@ int jeu(int mode, SDL_Renderer * renderer){
 	
 	j1->nom[3] = 0;
 	j2->nom[3] = 1;
-	j1->jetons = 30;
-	j2->jetons = 30;
+	j1->jetons = 28;
+	j2->jetons = 28;
 	j1->score  = 0;
 	j2->score  = 0;
-	cout << "init joueurs" << endl;
 	
 
 	plateau = (Jeu*)malloc(sizeof(Jeu));
-	cout << "mallocs plateau" << endl;
 	initPlateau(plateau);
 	plateau->j1 = j1;
 	plateau->j2 = j2;
@@ -91,12 +94,12 @@ int jeu(int mode, SDL_Renderer * renderer){
 										for(int cpt=1;cpt<=8;cpt++){
 											prise(cx,cy,cpt,plateau);
 										}
+										if(plateau->current) plateau->j1->jetons--;
+										else plateau->j2->jetons--;
 										plateau->current = !plateau->current;
+										fin = 0;
 									}
 								}
-									
-								
-								//else affiche erreur
 							}
 						}
 					}
@@ -104,11 +107,36 @@ int jeu(int mode, SDL_Renderer * renderer){
 			}				
 		}
 	
-		
+		for(int m=1; m<=8; m++){
+			for(int n=1; n<=8; n++){
+				if(coupPossible(m,n, plateau)) coup = true ;
+			}
+		}
+		if(!coup){
+			plateau->current = !plateau->current;
+			coup = false;
+			fin++;
+		}
+		if(fin >= 2){
+			SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+			char end[23] = "gagne";
+			char endname[3];
+			if(plateau->j1->score > plateau->j2->score){
+				endname[0] = plateau->j1->nom[0];
+				endname[1] = plateau->j1->nom[1];
+				endname[2] = plateau->j1->nom[2];
+			} else { 
+				endname[0] = plateau->j2->nom[0];
+				endname[1] = plateau->j2->nom[1];
+				endname[2] = plateau->j2->nom[2];
+			}
+			AffNom(endname, 1.5, 310, 175, renderer);
+			AffTxt(end, 1.5, 470, 175, renderer);
+		}
+				 
 				
 		score(j1, plateau);
 		score(j2, plateau);
-		
 		
 		AffCurrent(plateau, renderer);
 		AffPlateau(plateau, renderer);
@@ -128,7 +156,6 @@ int jeu(int mode, SDL_Renderer * renderer){
 	free((joueur *)j1);
 	free((joueur *)j2);
 	free(plateau);
-	
 	
 	return 0;
 }

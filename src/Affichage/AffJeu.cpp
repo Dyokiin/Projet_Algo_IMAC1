@@ -41,18 +41,31 @@ void AffPlateau(struct jeu *plateau, SDL_Renderer *renderer){
 void AffJoueur(joueur*j, SDL_Renderer *renderer){
 
 	SDL_SetRenderDrawColor(renderer, 255,255,255,255);
+	char scr[MAX_CHAR] = "score";
+
+	SDL_Rect blanc;
+	blanc.x = 78;
+	blanc.y = 248;
+	blanc.w = 94;
+	blanc.h = 182;
+	SDL_RenderDrawRect(renderer, &blanc);
+
+
 	if(j->nom[3] == 0){
-		AffTxt(j->nom, 1, 80, 250, renderer);
+		AffNom(j->nom, 1, 80, 250, renderer);
 		AffNb(j->jetons, 1, 80, 300, renderer);
+		AffTxt(scr, 0.6, 80, 375, renderer);
 		AffNb(j->score, 1, 80, 400, renderer);
 	} else {
 		if(j->nom[0] == 'b' && j->nom[1] == 'o' && j->nom[2] == 't'){
 			DrawBot(830, 250, renderer);
 			AffNb(j->jetons, 1, 830, 300, renderer);
+			AffTxt(scr, 0.6, 830, 375, renderer);
 			AffNb(j->score, 1, 830, 400, renderer);
 		} else {
 			AffTxt(j->nom, 1, 830, 250, renderer);
 			AffNb(j->jetons, 1, 830, 300, renderer);
+			AffTxt(scr, 0.6, 830, 375, renderer);
 			AffNb(j->score, 1, 830, 400, renderer);
 		}
 	}
@@ -82,7 +95,10 @@ void AffCurrent(struct jeu* plateau, SDL_Renderer *renderer){
 	if(!currentPlay(plateau)) flch = 750;
 	
 	SDL_SetRenderDrawColor(renderer, 255,0,0,255);
-	SDL_RenderDrawLine(renderer, 125+flch, 150, 125+flch, 245);
-	SDL_RenderDrawLine(renderer, 100+flch, 225, 125+flch, 245);
-	SDL_RenderDrawLine(renderer, 150+flch, 225, 125+flch, 245);
+	SDL_RenderDrawLine(renderer, 124+flch, 150, 124+flch, 240);
+	SDL_RenderDrawLine(renderer, 100+flch, 224, 125+flch, 239);
+	SDL_RenderDrawLine(renderer, 150+flch, 224, 125+flch, 239);
+	SDL_RenderDrawLine(renderer, 125+flch, 150, 125+flch, 240);
+	SDL_RenderDrawLine(renderer, 100+flch, 225, 125+flch, 240);
+	SDL_RenderDrawLine(renderer, 150+flch, 225, 125+flch, 240);
 }

@@ -129,7 +129,7 @@ void AffL(int n, float taille, int x, int y, SDL_Renderer* ren){
 			rect.h =H_MIN*taille;
 			SDL_RenderFillRect(ren, &rect);
 			rect.x =x;
-			rect.y =y+L_MIN/2;
+			rect.y =y+L_MIN/2 *taille;
 			rect.h =H_MIN*taille;
 			rect.w =L_MIN/1.5*taille;
 			SDL_RenderFillRect(ren, &rect);
@@ -597,6 +597,15 @@ int AffTxt(char* mot, float taille, int x, int y, SDL_Renderer* ren){
 
 	int xi = x;
 	for(int j=0; j<=23; j++){
+		AffL((int)mot[j]-96, taille, xi, y, ren);
+		xi += 30*taille; }
+	return xi;
+}
+
+int AffNom(char* mot, float taille, int x, int y, SDL_Renderer* ren){
+
+	int xi = x;
+	for(int j=0; j<=2; j++){
 		AffL((int)mot[j]-96, taille, xi, y, ren);
 		xi += 30*taille; }
 	return xi;
