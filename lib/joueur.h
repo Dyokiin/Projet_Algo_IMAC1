@@ -9,7 +9,8 @@ typedef struct joueur{
 
 
 int getPName(joueur * j, int n, SDL_Renderer *ren);
-
+bool currentPlay(struct jeu* plateau);
+void score(joueur* j,  struct jeu* plateau);
 
 
 #endif 
