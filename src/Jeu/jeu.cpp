@@ -73,7 +73,6 @@ int jeu(int mode, SDL_Renderer * renderer){
 	pose(5,4,plateau, current);
 	current = !current;
 	
-	plateau->board[8][2]->couleur=2;
 	
 	
 	/* Boucle principale du jeu | Une boucle = une frame */
@@ -117,7 +116,9 @@ int jeu(int mode, SDL_Renderer * renderer){
 		}
 	
 	
-		/* On passe le tour si coup impossible pour le joueur et on vérifie que le jeu n'est pas finit */
+
+	
+		/* On passe le tour si coup impossible pour le joueur et on vérifie que le jeu n'est pas fini */
 		for(int m=1; m<=8; m++){
 			for(int n=1; n<=8; n++){
 				if(coupPossible(m,n, plateau, current)) coup = true ;
@@ -163,6 +164,14 @@ int jeu(int mode, SDL_Renderer * renderer){
 		SDL_RenderPresent(renderer);
 		SDL_SetRenderDrawColor(renderer, 0,0,0,255); 		//clear render pour afficher le jeu
 		SDL_RenderClear(renderer);
+
+
+		/* On fait jouer l'"ia" si le mode de jeu le permet */
+		if(mode == 2 && current){
+			roboto(plateau);
+			current = !current;
+		}
+
 	}
 	
 	
