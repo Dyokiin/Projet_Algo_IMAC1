@@ -18,11 +18,14 @@ int jeu(int mode, SDL_Renderer * renderer){
 	int fin =0;
 	bool game = true;
 	bool coup = false;
+	bool current = false; 
 	Jeu * plateau;
 	struct joueur* j1 = (struct joueur*)malloc((4*sizeof(char)+2*sizeof(int)));
 	struct joueur* j2 = (struct joueur*)malloc((4*sizeof(char)+2*sizeof(int)));
 
 	
+	/* Menu Nom joueur avec possibilité de quitter */	
+		
 	if(mode == 1){
 		if(getPName(j1, 1, renderer)==1){
 			free((joueur *)j1);
@@ -46,32 +49,38 @@ int jeu(int mode, SDL_Renderer * renderer){
 		j2->nom[2] = 't';
 	}
 	
+	/* Initialisation Joueurs et Plateau */
+	
 	j1->nom[3] = 0;
 	j2->nom[3] = 1;
-	j1->jetons = 28;
-	j2->jetons = 28;
+	j1->jetons = 30;
+	j2->jetons = 30;
 	j1->score  = 0;
 	j2->score  = 0;
-	
 
-	plateau = (Jeu*)malloc(sizeof(Jeu));
+	plateau = (Jeu*)malloc( 2*sizeof(joueur) + 64*sizeof(jeton));
 	initPlateau(plateau);
 	plateau->j1 = j1;
 	plateau->j2 = j2;
-	plateau->current = true;
 	
 	
-	pose(4,4,plateau);
-	pose(5,5,plateau);
-	plateau->current = !plateau->current;
-	pose(4,5,plateau);
-	pose(5,4,plateau);
-	plateau->current = !plateau->current;
+	/* Pose des 4 Premiers jetons sans passer par la vérification de coup possible */
 	
-	AffJeton(plateau, renderer);
+	pose(4,4,plateau, current);
+	pose(5,5,plateau, current);
+	current = !current;
+	pose(4,5,plateau, current);
+	pose(5,4,plateau, current);
+	current = !current;
+	
+	plateau->board[8][2]->couleur=2;
+	
+	
+	/* Boucle principale du jeu | Une boucle = une frame */
 
 	while(game){
-
+		
+		/* Boucle d'évènement pour savoir où le joueur clic et agir en fonction */
 		while(SDL_PollEvent(&clic)){
 			if (clic.type == SDL_QUIT){
 				game = false;
@@ -89,14 +98,14 @@ int jeu(int mode, SDL_Renderer * renderer){
 								coup = !coup;
 								cx = i;
 								cy = j;
-								if(coupPossible(cx,cy,plateau)){
-									if(pose(cx,cy,plateau)!=1){
+								if(coupPossible(cx,cy,plateau, current)){
+									if(pose(cx,cy,plateau, current)!=1){
 										for(int cpt=1;cpt<=8;cpt++){
-											prise(cx,cy,cpt,plateau);
+											prise(cx,cy,cpt,plateau, current);
 										}
-										if(plateau->current) plateau->j1->jetons--;
+										if(!current) plateau->j1->jetons--;
 										else plateau->j2->jetons--;
-										plateau->current = !plateau->current;
+										current = !current;
 										fin = 0;
 									}
 								}
@@ -107,13 +116,15 @@ int jeu(int mode, SDL_Renderer * renderer){
 			}				
 		}
 	
+	
+		/* On passe le tour si coup impossible pour le joueur et on vérifie que le jeu n'est pas finit */
 		for(int m=1; m<=8; m++){
 			for(int n=1; n<=8; n++){
-				if(coupPossible(m,n, plateau)) coup = true ;
+				if(coupPossible(m,n, plateau, current)) coup = true ;
 			}
 		}
 		if(!coup){
-			plateau->current = !plateau->current;
+			current = !current;
 			coup = false;
 			fin++;
 		}
@@ -134,12 +145,17 @@ int jeu(int mode, SDL_Renderer * renderer){
 			AffTxt(end, 1.5, 470, 175, renderer);
 		}
 				 
-				
-		score(j1, plateau);
-		score(j2, plateau);
 		
-		AffCurrent(plateau, renderer);
-		AffPlateau(plateau, renderer);
+		/* Calcul des scores des joueurs */
+				
+		score(plateau);
+		
+		
+		/* Affichage de tout les éléments puis nettoyage du renderer */
+		
+		AffJeton(plateau, renderer);
+		AffCurrent(plateau, renderer, current);
+		AffPlateau(plateau, renderer, current);
 		AffJeton(plateau, renderer);
 		AffJoueur(j1, renderer);
 		AffJoueur(j2, renderer);
@@ -152,9 +168,9 @@ int jeu(int mode, SDL_Renderer * renderer){
 	
 	/* Liberation de toute la mémoire allouée ici */
 	
-	
 	free((joueur *)j1);
 	free((joueur *)j2);
+	//freePlateau(plateau);
 	free(plateau);
 	
 	return 0;
@@ -164,17 +180,134 @@ int jeu(int mode, SDL_Renderer * renderer){
 /* Initialise le Plateau de jeu avec des jeton de couleur nulle */
 void initPlateau(struct jeu * plateau){
 
-	plateau->first = NULL;
-	plateau->last = NULL;
-	
-	for(int i=1;i<=64;i++){
-		insereTete(plateau);
+	for(int i=1;i<=8;i++){
+		for(int j=1;j<=8;j++){
+			Jeton *jet = (Jeton*)malloc(sizeof(Jeton));
+			jet->couleur = 2;
+			jet->x = i;
+			jet->y = j;
+			
+			plateau->board[i][j] = jet;
+		}
 	}
 }
 
 
-/* Trois fonctions qui permettent de passer des coordonées d'un jeton à sa position dans la liste chainee et vice versa */
+/* Libère toute la mémoire allouée pour les jetons */
+void freePlateau(struct jeu * plateau){
 
+	for(int i=1;i<=8;i++){
+		for(int j=1;j<=8;j++){
+			free((jeton*)plateau->board[i][j]);
+		}
+	}
+}
+
+
+/* Permet de modifer la couleur des jetons pris après un coup */
+int prise(int x, int y,int direc, struct jeu * plateau, bool current){
+	
+	int coul;
+	if(!current) coul = 0;
+	else coul = 1;
+	
+	switch(direc){
+		case 1:
+			if(y == 1) return 1;
+			else if(couleur(x,y-1,plateau)==coul){
+				jetonAt(x,y,plateau)->couleur=coul;				
+				return 0;
+			} else if(couleur(x,y-1,plateau)==2) return 1;
+			if(prise(x,y-1,direc,plateau, current)==0){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			}
+			break;
+		case 2:
+			if(y == 1 || x == 8) return 1;
+			else if(couleur(x+1,y-1,plateau)==coul){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			} else if(couleur(x+1,y-1,plateau)==2) return 1;
+			if(prise(x+1,y-1,direc,plateau, current)==0){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			}
+			break;
+		case 3:
+			if(x == 8) return 1;
+			else if(couleur(x+1,y,plateau)==coul){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			} else if(couleur(x+1,y,plateau)==2) return 1;
+			if(prise(x+1,y,direc,plateau, current)==0){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			}
+			break;
+		case 4:
+			if(x == 8 || y == 8) return 1;
+			else if(couleur(x+1,y+1,plateau)==coul){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			} else if(couleur(x+1,y+1,plateau)==2) return 1;
+			if(prise(x+1,y+1,direc,plateau, current)==0){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			}
+			break;
+		case 5:
+			if(y == 8) return 1;
+			else if(couleur(x,y+1,plateau)==coul){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			} else if(couleur(x,y+1,plateau)==2) return 1;
+			if(prise(x,y+1,direc,plateau, current)==0){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			}
+			break;
+		case 6:
+			if(y == 8 || x == 1) return 1;
+			else if(couleur(x-1,y+1,plateau)==coul){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			} else if(couleur(x-1,y+1,plateau)==2) return 1;
+			if(prise(x-1,y+1,direc,plateau, current)==0){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			}
+			break;
+		case 7:
+			if( x == 1) return 1;
+			else if(couleur(x-1,y,plateau)==coul){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			} else if(couleur(x-1,y,plateau)==2) return 1;
+			if(prise(x-1,y,direc,plateau, current)==0){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			}
+			break;
+		case 8:
+			if(y == 1 || x == 1) return 1;
+			else if(couleur(x-1,y-1,plateau)==coul){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			} else if(couleur(x-1,y-1,plateau)==2) return 1;
+			if(prise(x-1,y-1,direc,plateau, current)==0){
+				jetonAt(x,y,plateau)->couleur=coul;
+				return 0;
+			}
+			break;
+	}
+
+	return 1;
+}
+
+
+/* Trois fonctions qui permettent de passer des coordonées d'un jeton à sa position dans la liste chainee et vice versa */
+//INUTILE : PLUS DE LISTE CHAINEE
 int xytol(int x,int y){
 
 	return (y-1)*8+x ;
@@ -205,106 +338,5 @@ int ltoy(int l){
 	else if(l<=56) rtrn =48;
 	else if(l<=64) rtrn =56;
 	return rtrn;
-}
-
-
-int prise(int x, int y,int direc, struct jeu * plateau){
-	
-	int coul;
-	if(plateau->current) coul = 0;
-	else coul = 1;
-	
-	switch(direc){
-		case 1:
-			if(y == 1) return 1;
-			else if(couleur(x,y-1,plateau)==coul){
-				jetonAt(x,y,plateau)->couleur=coul;				
-				return 0;
-			} else if(couleur(x,y-1,plateau)==2) return 1;
-			if(prise(x,y-1,direc,plateau)==0){
-				jetonAt(x,y,plateau)->couleur=coul;
-				return 0;
-			}
-			break;
-		case 2:
-			if(y == 1 || x == 8) return 1;
-			else if(couleur(x+1,y-1,plateau)==coul){
-				jetonAt(x,y,plateau)->couleur=coul;
-				return 0;
-			} else if(couleur(x+1,y-1,plateau)==2) return 1;
-			if(prise(x+1,y-1,direc,plateau)==0){
-				jetonAt(x,y,plateau)->couleur=coul;
-				return 0;
-			}
-			break;
-		case 3:
-			if(x == 8) return 1;
-			else if(couleur(x+1,y,plateau)==coul){
-				jetonAt(x,y,plateau)->couleur=coul;
-				return 0;
-			} else if(couleur(x+1,y,plateau)==2) return 1;
-			if(prise(x+1,y,direc,plateau)==0){
-				jetonAt(x,y,plateau)->couleur=coul;
-				return 0;
-			}
-			break;
-		case 4:
-			if(x == 8 || y == 8) return 1;
-			else if(couleur(x+1,y+1,plateau)==coul){
-				jetonAt(x,y,plateau)->couleur=coul;
-				return 0;
-			} else if(couleur(x+1,y+1,plateau)==2) return 1;
-			if(prise(x+1,y+1,direc,plateau)==0){
-				jetonAt(x,y,plateau)->couleur=coul;
-				return 0;
-			}
-			break;
-		case 5:
-			if(y == 8) return 1;
-			else if(couleur(x,y+1,plateau)==coul){
-				jetonAt(x,y,plateau)->couleur=coul;
-				return 0;
-			} else if(couleur(x,y+1,plateau)==2) return 1;
-			if(prise(x,y+1,direc,plateau)==0){
-				jetonAt(x,y,plateau)->couleur=coul;
-				return 0;
-			}
-			break;
-		case 6:
-			if(y == 8 || x == 1) return 1;
-			else if(couleur(x-1,y+1,plateau)==coul){
-				jetonAt(x,y,plateau)->couleur=coul;
-				return 0;
-			} else if(couleur(x-1,y+1,plateau)==2) return 1;
-			if(prise(x-1,y+1,direc,plateau)==0){
-				jetonAt(x,y,plateau)->couleur=coul;
-				return 0;
-			}
-			break;
-		case 7:
-			if( x == 1) return 1;
-			else if(couleur(x-1,y,plateau)==coul){
-				jetonAt(x,y,plateau)->couleur=coul;
-				return 0;
-			} else if(couleur(x-1,y,plateau)==2) return 1;
-			if(prise(x-1,y,direc,plateau)==0){
-				jetonAt(x,y,plateau)->couleur=coul;
-				return 0;
-			}
-			break;
-		case 8:
-			if(y == 1 || x == 1) return 1;
-			else if(couleur(x-1,y-1,plateau)==coul){
-				jetonAt(x,y,plateau)->couleur=coul;
-				return 0;
-			} else if(couleur(x-1,y-1,plateau)==2) return 1;
-			if(prise(x-1,y-1,direc,plateau)==0){
-				jetonAt(x,y,plateau)->couleur=coul;
-				return 0;
-			}
-			break;
-	}
-
-	return 1;
 }
 

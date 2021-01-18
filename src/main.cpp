@@ -33,11 +33,9 @@ int main(){
 		
 		switch (menuPrincipal(renderer)) {
 			case 1:
-				cout << "JcJ" << endl;
 				jeu(1, renderer);
 				break;
 			case 2:
-				cout << "JcM" << endl;
 				jeu(2, renderer);
 				break;
 			case 3:

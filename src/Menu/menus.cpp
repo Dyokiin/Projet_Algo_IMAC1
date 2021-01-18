@@ -31,7 +31,6 @@ int menuPrincipal(SDL_Renderer *renderer){
 		if (e.type == SDL_MOUSEBUTTONDOWN) {
 			int x,y;
 			SDL_GetMouseState(&x, &y);
-			cout << x << " " << y << endl;
 			if(x >= 300 && x <= 825 && y >= 300 && y <= 350) return 1;
 			else if(x >= 300 && x <= 825 && y >= 400 && y <= 450) return 2;
 			else if(x >= 300 && x <= 525 && y >= 500 && y <= 550) return 3;
@@ -61,7 +60,6 @@ int menuNom(int n, char*nom, SDL_Renderer *renderer){
 			if (l.type == SDL_MOUSEBUTTONDOWN) {
 				int x,y;
 				SDL_GetMouseState(&x, &y);
-				cout << x << " " << y << endl;
 				if(x > 750 && y > 850) return 1;
 				if(x > 750 && y > 800 && y < 830){
 					if(cpt == 3) return 0;
@@ -72,13 +70,11 @@ int menuNom(int n, char*nom, SDL_Renderer *renderer){
 						if (x <= 260+j*37 && x >= 250+(j-1)*37){
 							if(y <= 205+i*40 && y >= 205+(i-1)*40){
 								if(cpt<3){
-									cout << i << " " << j << endl;
 									nom[cpt] = (char)((j+(i-1)*13)+96) ;
 									cpt++;
 								}
 							}
 						} else if(x<=775 && x>=740 && y<=275 && y>=240){
-							cout << "erase" << endl;
 							if(cpt>0) cpt--;
 							nom[cpt] = ' ';
 						}
