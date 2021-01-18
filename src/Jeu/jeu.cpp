@@ -18,7 +18,7 @@ int jeu(int mode, SDL_Renderer * renderer){
 	int fin =0;
 	bool game = true;
 	bool coup = false;
-	bool current = false; 
+	bool current = false;
 	Jeu * plateau;
 	struct joueur* j1 = (struct joueur*)malloc((4*sizeof(char)+2*sizeof(int)));
 	struct joueur* j2 = (struct joueur*)malloc((4*sizeof(char)+2*sizeof(int)));
@@ -129,7 +129,7 @@ int jeu(int mode, SDL_Renderer * renderer){
 			coup = false;
 			fin++;
 		}
-		if(fin >= 2){
+		if(fin >= 2 || (plateau->j1->jetons==0 && plateau->j2->jetons==0)){
 			SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 			char end[23] = "gagne";
 			char endname[3];
@@ -167,8 +167,9 @@ int jeu(int mode, SDL_Renderer * renderer){
 
 
 		/* On fait jouer l'"ia" si le mode de jeu le permet */
-		if(mode == 2 && current){
+		if(mode == 2 && current && fin<2){
 			roboto(plateau);
+			plateau->j2->jetons--;
 			current = !current;
 		}
 

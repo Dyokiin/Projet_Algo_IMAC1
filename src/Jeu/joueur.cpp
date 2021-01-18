@@ -44,12 +44,12 @@ void roboto(struct jeu* plateau){
 	
 	for(int i=1;i<=8;i++){
 		for(int j=1;j<=8;j++){
-			if(coupPossible(i,j, plateau, true))  lalaetla ++;
+			if(coupPossible(i,j, plateau, true) && couleur(i,j,plateau)==2)  lalaetla ++;
 		}
 	}
 	
 	srand((unsigned) time(&t));
-	icicestbien = rand() %lalaetla;
+	icicestbien = rand() %lalaetla +1;
 	
 	for(int i=1;i<=8;i++){
 		for(int j=1;j<=8;j++){
