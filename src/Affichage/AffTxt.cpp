@@ -10,6 +10,7 @@ using namespace std;
 #define L_MIN 25
 
 
+/* Affiche la lettre n de l'alphabet */
 void AffL(int n, float taille, int x, int y, SDL_Renderer* ren){
 
 	SDL_Rect rect;
@@ -593,6 +594,8 @@ void AffL(int n, float taille, int x, int y, SDL_Renderer* ren){
 	}
 }
 
+
+/* Affiche grace à la fonction précédente un char passé en paramètre */
 int AffTxt(char* mot, float taille, int x, int y, SDL_Renderer* ren){
 
 	int xi = x;
@@ -610,7 +613,9 @@ int AffNom(char* mot, float taille, int x, int y, SDL_Renderer* ren){
 		xi += 30*taille; }
 	return xi;
 }
-		
+
+
+/* Affiche le chiffre passé en paramètre */		
 void AffChfr(int chiffre, float taille, int x, int y, SDL_Renderer* ren){
 
 	SDL_Rect rect;
@@ -855,6 +860,8 @@ void AffChfr(int chiffre, float taille, int x, int y, SDL_Renderer* ren){
 	}
 }
 
+
+/* Affiche un nombre passé en paramètres grâce à la fonction précédente */
 int AffNb(int nb, float taille, int x, int y, SDL_Renderer* ren){
 	int xi = x;
 	int n = 100;
@@ -865,6 +872,8 @@ int AffNb(int nb, float taille, int x, int y, SDL_Renderer* ren){
 	return xi;
 }
 
+
+/* Dessine Roboto */
 void DrawBot(int x, int y, SDL_Renderer* ren){
 	SDL_Rect bot;
 	

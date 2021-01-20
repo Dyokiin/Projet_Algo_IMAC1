@@ -11,6 +11,7 @@ using namespace std;
 
 int main(){
 
+	/* Initialisation de la fenêtre et du renderer SDL */
 	SDL_Window* window = NULL;
 	SDL_Renderer* renderer = NULL;
 	bool quit = false;
@@ -29,7 +30,7 @@ int main(){
 		goto Quit; }
 
 	
-
+	/* Affichage du menu prencipal et lancement du jeu */
 	while (!quit){
 		
 		switch (menuPrincipal(renderer)) {
@@ -59,11 +60,13 @@ int main(){
 	}
 	
 	
+	/* Si le renderer et la fenetre ont bien été créés, on les supprimes et on quitte le programme */
 Quit:
 	if(renderer != NULL) 
 		SDL_DestroyRenderer(renderer);
 	if(window != NULL)
 		SDL_DestroyWindow(window);
 	SDL_Quit();
+	
 	return EXIT_SUCCESS;
 }

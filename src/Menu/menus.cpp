@@ -8,6 +8,8 @@ using namespace std;
 
 #define MAX_CHAR 23
 
+
+/* Affiche et gère le menu Principal */
 int menuPrincipal(SDL_Renderer *renderer){
 	SDL_Event e;
 	char titre[MAX_CHAR] = "bienvenue dans reversi";
@@ -45,6 +47,8 @@ int menuPrincipal(SDL_Renderer *renderer){
 
 }
 
+
+/* Affiche et gère le menu des Noms Joueurs */
 int menuNom(int n, char*nom, SDL_Renderer *renderer){
 
 	SDL_Event l;
@@ -118,8 +122,3 @@ int menuNom(int n, char*nom, SDL_Renderer *renderer){
 	return 0;
 
 }
-	
-	
-
-
-

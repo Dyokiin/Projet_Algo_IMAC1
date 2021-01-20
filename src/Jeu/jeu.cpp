@@ -10,7 +10,7 @@
 using namespace std;
 
 
-
+/* Fonction Principale de REVERSI */
 int jeu(int mode, SDL_Renderer * renderer){
 
 	SDL_Event clic;
