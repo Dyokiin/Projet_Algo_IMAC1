@@ -16,11 +16,13 @@ int menuPrincipal(SDL_Renderer *renderer){
 	char bouton1[MAX_CHAR] = "joueur vs joueur";
 	char bouton2[MAX_CHAR] = "joueur vs machine";
 	char bouton3[MAX_CHAR] = "quitter";
+	char bouton4[MAX_CHAR] = "charger une partie";
 	
 	AffTxt(titre, 1, 100, 30, renderer);
 	bouton(bouton1, 1, 300, 300, renderer);
 	bouton(bouton2, 1, 300, 400, renderer);
-	bouton(bouton3, 1, 300, 500, renderer);
+	bouton(bouton3, 1, 300, 600, renderer);
+	bouton(bouton4, 1, 300, 500, renderer);
 	AffTxt(nom1, 0.5, 30, 820, renderer);
 	AffTxt(nom2, 0.5, 30, 850, renderer);
 	
@@ -33,7 +35,8 @@ int menuPrincipal(SDL_Renderer *renderer){
 			SDL_GetMouseState(&x, &y);
 			if(x >= 300 && x <= 825 && y >= 300 && y <= 350) return 1;
 			else if(x >= 300 && x <= 825 && y >= 400 && y <= 450) return 2;
-			else if(x >= 300 && x <= 525 && y >= 500 && y <= 550) return 3;
+			else if(x >= 300 && x <= 825 && y >= 500 && y <= 550) return 4;
+			else if(x >= 300 && x <= 525 && y >= 600 && y <= 650) return 3; 
 
 		}
 	}

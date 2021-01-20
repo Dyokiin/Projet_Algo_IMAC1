@@ -6,6 +6,7 @@
 #include "../../lib/joueur.h"
 #include "../../lib/jeu.h"
 #include "../../lib/jeton.h"
+#include "../../lib/save.h"
 using namespace std;
 
 
@@ -24,7 +25,7 @@ int jeu(int mode, SDL_Renderer * renderer){
 	struct joueur* j2 = (struct joueur*)malloc((4*sizeof(char)+2*sizeof(int)));
 
 	
-	/* Menu Nom joueur avec possibilité de quitter */	
+	/* Menu Nom joueur avec possibilité de quitter Puis init Joueurs et Plateau */	
 		
 	if(mode == 1){
 		if(getPName(j1, 1, renderer)==1){
@@ -37,8 +38,30 @@ int jeu(int mode, SDL_Renderer * renderer){
 			free((joueur *)j2);
 			return 1; 
 		}
+		j1->nom[3] = 0;
+		j2->nom[3] = 1;
+		j1->jetons = 30;
+		j2->jetons = 30;
+		j1->score  = 0;
+		j2->score  = 0;
+		
+		plateau = (Jeu*)malloc( 2*sizeof(joueur) + 64*sizeof(jeton));
+		initPlateau(plateau);
+		plateau->j1 = j1;
+		plateau->j2 = j2;
+		
+		
+		/* Pose des 4 Premiers jetons sans passer par la vérification de coup possible */
+		
+		pose(4,4,plateau, current);
+		pose(5,5,plateau, current);
+		current = !current;
+		pose(4,5,plateau, current);
+		pose(5,4,plateau, current);
+		current = !current;
+
 	}
-	else {
+	else if(mode == 2){
 		if(getPName(j1, 1, renderer)==1){
 			free((joueur *)j1);
 			free((joueur *)j2);	
@@ -47,31 +70,43 @@ int jeu(int mode, SDL_Renderer * renderer){
 		j2->nom[0] = 'b';
 		j2->nom[1] = 'o';
 		j2->nom[2] = 't';
+		
+		j1->nom[3] = 0;
+		j2->nom[3] = 1;
+		j1->jetons = 30;
+		j2->jetons = 30;
+		j1->score  = 0;
+		j2->score  = 0;
+		
+		plateau = (Jeu*)malloc( 2*sizeof(joueur) + 64*sizeof(jeton));
+		initPlateau(plateau);
+		plateau->j1 = j1;
+		plateau->j2 = j2;
+		
+		
+			/* Pose des 4 Premiers jetons sans passer par la vérification de coup possible */
+		
+		pose(4,4,plateau, current);
+		pose(5,5,plateau, current);
+		current = !current;
+		pose(4,5,plateau, current);
+		pose(5,4,plateau, current);
+		current = !current;
+	
+	}
+	else if(mode == 3 || mode == 4){
+		
+		plateau = (Jeu*)malloc( 2*sizeof(joueur) + 64*sizeof(jeton));
+		initPlateau(plateau);
+		plateau->j1 = j1;
+		plateau->j2 = j2;
+		
+		current = loadGame(plateau);
 	}
 	
-	/* Initialisation Joueurs et Plateau */
-	
-	j1->nom[3] = 0;
-	j2->nom[3] = 1;
-	j1->jetons = 30;
-	j2->jetons = 30;
-	j1->score  = 0;
-	j2->score  = 0;
 
-	plateau = (Jeu*)malloc( 2*sizeof(joueur) + 64*sizeof(jeton));
-	initPlateau(plateau);
-	plateau->j1 = j1;
-	plateau->j2 = j2;
-	
-	
-	/* Pose des 4 Premiers jetons sans passer par la vérification de coup possible */
-	
-	pose(4,4,plateau, current);
-	pose(5,5,plateau, current);
-	current = !current;
-	pose(4,5,plateau, current);
-	pose(5,4,plateau, current);
-	current = !current;
+
+
 	
 	
 	
@@ -88,7 +123,13 @@ int jeu(int mode, SDL_Renderer * renderer){
 				int x,y;
 				SDL_GetMouseState(&x, &y);
 			
-				if(x > 750 && y > 850) game = false;
+				if(x > 750 && y > 850){
+					game = false;
+				}
+				if(x > 335 && y > 800 && y < 825){
+					saveGame(mode, plateau, current);
+					game = false;
+				}
 				
 				for(int i=1; i<=8; i++){
 					for(int j=1; j<=8; j++){
@@ -144,6 +185,7 @@ int jeu(int mode, SDL_Renderer * renderer){
 			}
 			AffNom(endname, 1.5, 310, 175, renderer);
 			AffTxt(end, 1.5, 470, 175, renderer);
+			
 		}
 				 
 		
@@ -167,7 +209,7 @@ int jeu(int mode, SDL_Renderer * renderer){
 
 
 		/* On fait jouer l'"ia" si le mode de jeu le permet */
-		if(mode == 2 && current && fin<2){
+		if((mode == 2 || mode == 4) && current && fin<2){
 			roboto(plateau);
 			plateau->j2->jetons--;
 			current = !current;

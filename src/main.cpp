@@ -1,6 +1,7 @@
 #include "../lib/AffTxt.h"
 #include "../lib/menus.h"
 #include "../lib/jeu.h"
+#include "../lib/save.h"
 #include <iostream>
 #include <SDL2/SDL.h>
 
@@ -40,6 +41,9 @@ int main(){
 				break;
 			case 3:
 				quit = true;
+				break;
+			case 4:
+				if(saved()) jeu(loadMode(), renderer);
 				break;
 			case 0:
 				break;

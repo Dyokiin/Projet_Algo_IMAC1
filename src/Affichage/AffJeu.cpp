@@ -15,9 +15,11 @@ void AffPlateau(struct jeu *plateau, SDL_Renderer *renderer, bool current){
 	SDL_Rect space;
 	char titre[MAX_CHAR] = "reversi";
 	char btnq[MAX_CHAR] = "quitter";
+	char btnsq[MAX_CHAR] = "sauvegarder et quitter";
 	
 	SDL_SetRenderDrawColor(renderer, 255,0,0,255);
-	bouton(btnq, 1, 750, 850, renderer);
+	bouton(btnq, 1, 785, 850, renderer);
+	bouton(btnsq, 1, 335, 800, renderer);
 	SDL_SetRenderDrawColor(renderer, 255,255,255,255);
 	AffTxt(titre, 1, 400, 5, renderer);
 	
