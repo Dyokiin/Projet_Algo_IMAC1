@@ -1,6 +1,7 @@
 #include "../lib/AffTxt.h"
 #include "../lib/menus.h"
 #include "../lib/jeu.h"
+#include "../lib/save.h"
 #include <iostream>
 #include <SDL2/SDL.h>
 
@@ -10,6 +11,7 @@ using namespace std;
 
 int main(){
 
+	/* Initialisation de la fenêtre et du renderer SDL */
 	SDL_Window* window = NULL;
 	SDL_Renderer* renderer = NULL;
 	bool quit = false;
@@ -28,20 +30,21 @@ int main(){
 		goto Quit; }
 
 	
-
+	/* Affichage du menu prencipal et lancement du jeu */
 	while (!quit){
 		
 		switch (menuPrincipal(renderer)) {
 			case 1:
-				cout << "JcJ" << endl;
 				jeu(1, renderer);
 				break;
 			case 2:
-				cout << "JcM" << endl;
 				jeu(2, renderer);
 				break;
 			case 3:
 				quit = true;
+				break;
+			case 4:
+				if(saved()) jeu(loadMode(), renderer);
 				break;
 			case 0:
 				break;
@@ -57,11 +60,13 @@ int main(){
 	}
 	
 	
+	/* Si le renderer et la fenetre ont bien été créés, on les supprimes et on quitte le programme */
 Quit:
 	if(renderer != NULL) 
 		SDL_DestroyRenderer(renderer);
 	if(window != NULL)
 		SDL_DestroyWindow(window);
 	SDL_Quit();
+	
 	return EXIT_SUCCESS;
 }

@@ -10,14 +10,16 @@ using namespace std;
 #define MAX_CHAR 23
 
 /* Permet l'Affichage du plateau vert */
-void AffPlateau(struct jeu *plateau, SDL_Renderer *renderer){
+void AffPlateau(struct jeu *plateau, SDL_Renderer *renderer, bool current){
 
 	SDL_Rect space;
 	char titre[MAX_CHAR] = "reversi";
 	char btnq[MAX_CHAR] = "quitter";
+	char btnsq[MAX_CHAR] = "sauvegarder et quitter";
 	
 	SDL_SetRenderDrawColor(renderer, 255,0,0,255);
-	bouton(btnq, 1, 750, 850, renderer);
+	bouton(btnq, 1, 785, 850, renderer);
+	bouton(btnsq, 1, 335, 800, renderer);
 	SDL_SetRenderDrawColor(renderer, 255,255,255,255);
 	AffTxt(titre, 1, 400, 5, renderer);
 	
@@ -29,7 +31,7 @@ void AffPlateau(struct jeu *plateau, SDL_Renderer *renderer){
 			space.h = 60;
 			SDL_SetRenderDrawColor(renderer, 139,245,70,94);
 			SDL_RenderFillRect(renderer, &space);
-			if(coupPossible(i+1, j+1, plateau)) disque(250+i*65+30, 250+j*65+30, 3, renderer);
+			if(coupPossible(i+1, j+1, plateau, current)) disque(250+i*65+30, 250+j*65+30, 3, renderer);
 			
 		}
 	}
@@ -88,11 +90,11 @@ void AffJeton(struct jeu* plateau, SDL_Renderer *renderer){
 
 
 /* Permet l'affichage d'une flèche indiquant le joueur courrant */
-void AffCurrent(struct jeu* plateau, SDL_Renderer *renderer){
+void AffCurrent(struct jeu* plateau, SDL_Renderer *renderer, bool current){
 	
 	int flch = 0;
 	
-	if(!currentPlay(plateau)) flch = 750;
+	if(current) flch = 750;
 	
 	SDL_SetRenderDrawColor(renderer, 255,0,0,255);
 	SDL_RenderDrawLine(renderer, 124+flch, 150, 124+flch, 240);

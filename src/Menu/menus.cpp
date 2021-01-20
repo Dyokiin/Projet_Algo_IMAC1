@@ -8,6 +8,8 @@ using namespace std;
 
 #define MAX_CHAR 23
 
+
+/* Affiche et gère le menu Principal */
 int menuPrincipal(SDL_Renderer *renderer){
 	SDL_Event e;
 	char titre[MAX_CHAR] = "bienvenue dans reversi";
@@ -16,11 +18,13 @@ int menuPrincipal(SDL_Renderer *renderer){
 	char bouton1[MAX_CHAR] = "joueur vs joueur";
 	char bouton2[MAX_CHAR] = "joueur vs machine";
 	char bouton3[MAX_CHAR] = "quitter";
+	char bouton4[MAX_CHAR] = "charger une partie";
 	
 	AffTxt(titre, 1, 100, 30, renderer);
 	bouton(bouton1, 1, 300, 300, renderer);
 	bouton(bouton2, 1, 300, 400, renderer);
-	bouton(bouton3, 1, 300, 500, renderer);
+	bouton(bouton3, 1, 300, 600, renderer);
+	bouton(bouton4, 1, 300, 500, renderer);
 	AffTxt(nom1, 0.5, 30, 820, renderer);
 	AffTxt(nom2, 0.5, 30, 850, renderer);
 	
@@ -31,10 +35,10 @@ int menuPrincipal(SDL_Renderer *renderer){
 		if (e.type == SDL_MOUSEBUTTONDOWN) {
 			int x,y;
 			SDL_GetMouseState(&x, &y);
-			cout << x << " " << y << endl;
 			if(x >= 300 && x <= 825 && y >= 300 && y <= 350) return 1;
 			else if(x >= 300 && x <= 825 && y >= 400 && y <= 450) return 2;
-			else if(x >= 300 && x <= 525 && y >= 500 && y <= 550) return 3;
+			else if(x >= 300 && x <= 825 && y >= 500 && y <= 550) return 4;
+			else if(x >= 300 && x <= 525 && y >= 600 && y <= 650) return 3; 
 
 		}
 	}
@@ -43,6 +47,8 @@ int menuPrincipal(SDL_Renderer *renderer){
 
 }
 
+
+/* Affiche et gère le menu des Noms Joueurs */
 int menuNom(int n, char*nom, SDL_Renderer *renderer){
 
 	SDL_Event l;
@@ -61,7 +67,6 @@ int menuNom(int n, char*nom, SDL_Renderer *renderer){
 			if (l.type == SDL_MOUSEBUTTONDOWN) {
 				int x,y;
 				SDL_GetMouseState(&x, &y);
-				cout << x << " " << y << endl;
 				if(x > 750 && y > 850) return 1;
 				if(x > 750 && y > 800 && y < 830){
 					if(cpt == 3) return 0;
@@ -72,13 +77,11 @@ int menuNom(int n, char*nom, SDL_Renderer *renderer){
 						if (x <= 260+j*37 && x >= 250+(j-1)*37){
 							if(y <= 205+i*40 && y >= 205+(i-1)*40){
 								if(cpt<3){
-									cout << i << " " << j << endl;
 									nom[cpt] = (char)((j+(i-1)*13)+96) ;
 									cpt++;
 								}
 							}
 						} else if(x<=775 && x>=740 && y<=275 && y>=240){
-							cout << "erase" << endl;
 							if(cpt>0) cpt--;
 							nom[cpt] = ' ';
 						}
@@ -119,8 +122,3 @@ int menuNom(int n, char*nom, SDL_Renderer *renderer){
 	return 0;
 
 }
-	
-	
-
-
-
